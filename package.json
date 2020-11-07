@@ -1,0 +1,30 @@
+{
+  "name": "ari-edu-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^3.2.0",
+    "express-session": "^1.17.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.7",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js",
+    "debug": "nodemon --inspect server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0TheDragon0/ari-edu-backend.git"
+  },
+  "author": "ari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0TheDragon0/ari-edu-backend/issues"
+  },
+  "homepage": "https://github.com/0TheDragon0/ari-edu-backend#readme"
+}

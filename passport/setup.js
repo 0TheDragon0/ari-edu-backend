@@ -15,13 +15,16 @@ passport.deserializeUser((id, done) => {
 
 // Local Strategy
 passport.use(
-    new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+    new LocalStrategy({ usernameField: "email", passReqToCallback: true }, (req,email, password, done) => {
         // Match User
         User.findOne({ email: email })
             .then(user => {
+                let name = req.body.name;
+                console.log("I am inside local strategy")
+                console.log(name);
                 // Create new User
                 if (!user) {
-                    const newUser = new User({ email, password });
+                    const newUser = new User({ name, email, password });
                     // Hash password before saving in database
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
