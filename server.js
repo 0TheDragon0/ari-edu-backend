@@ -10,7 +10,6 @@ const mongoPassword = "n0tToda8";
 const PORT = process.env.PORT;
 
 const app = express();
-const PORT = 3000;
 const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mongoPassword) + "@" +
 config.mongo.hostString;
 
