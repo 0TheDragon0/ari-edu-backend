@@ -5,10 +5,14 @@ const mongoose = require("mongoose");
 
 const passport = require("./passport/setup");
 const auth = require("./routes/auth");
+var config = JSON.parse(process.env.APP_CONFIG);
+const mongoPassword = "n0tToda8";
+const PORT = process.env.PORT;
 
 const app = express();
 const PORT = 3000;
-const MONGO_URI = "mongodb://127.0.0.1:27017/tutorial_social_login";
+const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mongoPassword) + "@" +
+config.mongo.hostString;
 
 mongoose
     .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
