@@ -58,6 +58,6 @@ app.use(function (req, res, next) {
 
 // Routes
 app.use("/api/auth", auth);
-app.get("/", (req, res) => res.send("Good monring sunshine!"));
+app.get("/", (req, res) => res.send("Hello Elliot! :D"));
 
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!`));
