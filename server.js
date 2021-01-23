@@ -3,6 +3,8 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 
+//something
+
 const passport = require("./passport/setup");
 const auth = require("./routes/auth");
 var config = JSON.parse(process.env.APP_CONFIG);
