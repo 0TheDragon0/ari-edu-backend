@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const passport = require("./passport/setup");
 const auth = require("./routes/auth");
 var config = JSON.parse(process.env.APP_CONFIG);
-const mongoPassword = "n0tToda8";
+const mongoPassword = process.env.MONGODBPASS;
 const PORT = process.env.PORT;
 
 const app = express();
@@ -14,7 +14,7 @@ const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mo
 config.mongo.hostString;
 
 mongoose
-    .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, ssl: true})
     .then(console.log(`MongoDB connected ${MONGO_URI}`))
     .catch(err => console.log(err));
 
