@@ -10,13 +10,14 @@ const auth = require("./routes/auth");
 var config = JSON.parse(process.env.APP_CONFIG);
 const mongoPassword = process.env.MONGODBPASS;
 const PORT = process.env.PORT;
+const dirName = process.env.ROOT_URL;
 
 const app = express();
 const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mongoPassword) + "@" +
 config.mongo.hostString;
 
 mongoose
-    .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, tls: true, tlsCAFile: 'evennode.pem', tlsAllowInvalidHostnames: true })
+    .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, tls: true, tlsCAFile: `${dirName}/evennode.pem`, tlsAllowInvalidHostnames: true })
     .then(console.log(`MongoDB connected ${MONGO_URI}`))
     .catch(err => console.log(err));
 
