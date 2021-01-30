@@ -16,7 +16,7 @@ const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mo
 config.mongo.hostString;
 
 mongoose
-    .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, ssl: true})
+    .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, tls: true, tlsCAFile: 'evennode.pem', tlsAllowInvalidHostnames: true })
     .then(console.log(`MongoDB connected ${MONGO_URI}`))
     .catch(err => console.log(err));
 
