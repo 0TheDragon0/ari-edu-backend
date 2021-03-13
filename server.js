@@ -15,12 +15,20 @@ const PORT = process.env.PORT;
 
 const app = express();
 const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mongoPassword) + "@" +
-config.mongo.hostString;
+config.mongo.hostString+"/tutorial_social_login";
 
-mongoose
-    .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, tls: true, tlsCAFile: 'evennode.pem', tlsAllowInvalidHostnames: true })
-    .then(console.log(`MongoDB connected ${MONGO_URI}`))
-    .catch(err => console.log(err));
+const local = process.env.ARI_LOCALHOST;
+if (local == "yes"){
+    mongoose
+        .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(console.log(`MongoDB connected ${MONGO_URI}`))
+        .catch(err => console.log(err));
+} else {
+    mongoose
+        .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, tls: true, tlsCAFile: 'evennode.pem', tlsAllowInvalidHostnames: true })
+        .then(console.log(`MongoDB connected ${MONGO_URI}`))
+        .catch(err => console.log(err));
+}
 
 // Bodyparser middleware, extended false does not allow nested payloads
 app.use(express.json());
