@@ -19,4 +19,18 @@ router.post("/register-login", (req, res, next) => {
     })(req, res, next);
 });
 
+router.post("/logout", (req, res, next) => {
+    req.logout();
+    return res.status(200).json({ success: `User logged out` });
+});
+
+router.get('/is-authenticated', (req, res, next) => {
+    console.log('session ', req.session);
+    if(req.isAuthenticated()){
+        console.log('user ', req.session.passport.user);
+        return next();
+    }
+    return res.status(401).json({"statusCode" : 401, "message" : "not authenticated"});
+});
+
 module.exports = router;
