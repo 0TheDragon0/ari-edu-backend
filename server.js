@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require("express");
+const cookieParser = require('cookie-parser');
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
@@ -34,9 +35,15 @@ if (local == "yes"){
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(cookieParser());
+
 // Express Session
 app.use(
     session({
+        cookie: { secure: false },
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+        },
         secret: "very secret this is",
         resave: false,
         saveUninitialized: true,
@@ -52,7 +59,7 @@ app.use(passport.session());
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
