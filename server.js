@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 
 const passport = require("./passport/setup");
 const auth = require("./routes/auth");
+const content = require("./routes/content")
 var config = JSON.parse(process.env.APP_CONFIG);
 const mongoPassword = process.env.MONGODBPASS;
 const PORT = process.env.PORT;
@@ -77,6 +78,7 @@ app.use(function (req, res, next) {
 
 // Routes
 app.use("/api/auth", auth);
+app.use("/api/content", content);
 app.get("/", (req, res) => res.send("Good morning sunshine!"));
 
 app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!`));

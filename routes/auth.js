@@ -3,14 +3,14 @@ const router = express.Router();
 const passport = require("passport");
 
 router.post("/register-login", (req, res, next) => {
-    passport.authenticate("local", function(err, user, info) {
+    passport.authenticate("local", function (err, user, info) {
         if (err) {
             return res.status(400).json({ errors: err });
         }
         if (!user) {
             return res.status(401).json({ errors: "Unauthorized" });
         }
-        req.logIn(user, function(err) {
+        req.logIn(user, function (err) {
             if (err) {
                 return res.status(400).json({ errors: err });
             }
@@ -26,11 +26,11 @@ router.post("/logout", (req, res, next) => {
 
 router.post('/is-authenticated', (req, res, next) => {
     console.log('session ', req.session);
-    if(req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         console.log('user ', req.session.passport.user);
         return res.status(200).json({ success: `User is authenticated` });
     }
-    return res.status(401).json({"statusCode" : 401, "message" : "not authenticated"});
+    return res.status(401).json({ "statusCode": 401, "message": "not authenticated" });
 });
 
 module.exports = router;
