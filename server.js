@@ -58,7 +58,7 @@ app.use(passport.session());
 
 // Add headers
 app.use(function (req, res, next) {
-    const allowedOrigins = ['http://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app/'];
+    const allowedOrigins = ['http://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
