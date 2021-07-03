@@ -17,10 +17,10 @@ const PORT = process.env.PORT;
 
 const app = express();
 const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mongoPassword) + "@" +
-config.mongo.hostString+"/tutorial_social_login";
+    config.mongo.hostString + "/tutorial_social_login";
 
 const local = process.env.ARI_LOCALHOST;
-if (local == "yes"){
+if (local == "yes") {
     mongoose
         .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(console.log(`MongoDB connected ${MONGO_URI}`))
@@ -58,10 +58,12 @@ app.use(passport.session());
 
 // Add headers
 app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', ['http://localhost:4200', 'https://ari-edu.firebaseapp.com']);
-
+    const allowedOrigins = ['http://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app/'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
