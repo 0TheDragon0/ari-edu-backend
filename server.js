@@ -41,9 +41,15 @@ app.use(cookieParser());
 // Express Session
 app.use(
     session({
-        cookie: { secure: true, sameSite="none", httpOnly=true, path="/", maxAge=99999999 },
+        cookie: { secure: true },
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+        },
+        cookie: {
+            sameSite: "none"
+        },
+        cookie: {
+            httpOnly: true
         },
         secret: "very secret this is",
         resave: false,
@@ -58,7 +64,7 @@ app.use(passport.session());
 
 // Add headers
 app.use(function (req, res, next) {
-    const allowedOrigins = ['http://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app'];
+    const allowedOrigins = ['http://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app']; 
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
