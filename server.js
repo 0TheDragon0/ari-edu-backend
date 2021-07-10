@@ -41,14 +41,10 @@ app.use(cookieParser());
 // Express Session
 app.use(
     session({
-        cookie: { secure: true },
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-        },
-        cookie: {
-            sameSite: "none"
-        },
-        cookie: {
+        cookie: { 
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7, 
+            sameSite: "none",
             httpOnly: true
         },
         secret: "very secret this is",
