@@ -41,7 +41,7 @@ app.use(cookieParser());
 // Express Session
 app.use(
     session({
-        cookie: { secure: false },
+        cookie: { secure: true, sameSite="none", httpOnly=true, path="/", maxAge=99999999 },
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
         },
