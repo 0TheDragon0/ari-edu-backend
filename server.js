@@ -6,7 +6,8 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 
-//something
+const fs = require("fs");
+const https = require("https");
 
 const passport = require("./passport/setup");
 const auth = require("./routes/auth");
@@ -15,11 +16,18 @@ var config = JSON.parse(process.env.APP_CONFIG);
 const mongoPassword = process.env.MONGODBPASS;
 const PORT = process.env.PORT;
 
+const local = process.env.ARI_LOCALHOST;
+let key = null;
+let cert = null;
+if (local == "yes") {
+    key = fs.readFileSync("cert.key", "utf-8");
+    cert = fs.readFileSync("cert.crt", "utf-8");
+}
+
 const app = express();
 const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mongoPassword) + "@" +
     config.mongo.hostString + "/tutorial_social_login";
 
-const local = process.env.ARI_LOCALHOST;
 if (local == "yes") {
     mongoose
         .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -36,14 +44,12 @@ if (local == "yes") {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(cookieParser());
-
 // Express Session
 app.use(
     session({
-        cookie: { 
+        cookie: {
             secure: true,
-            maxAge: 1000 * 60 * 60 * 24 * 7, 
+            maxAge: 1000 * 60 * 60 * 24 * 7,
             sameSite: "none",
             httpOnly: true
         },
@@ -60,17 +66,18 @@ app.use(passport.session());
 
 // Add headers
 app.use(function (req, res, next) {
-    const allowedOrigins = ['http://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app']; 
+    const allowedOrigins = ['https://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
-    
+
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', ['X-Requested-With', 'content-type']);
+    res.setHeader('Access-Control-Request-Headers', ['X-Requested-With', 'content-type']);
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -85,4 +92,8 @@ app.use("/api/auth", auth);
 app.use("/api/content", content);
 app.get("/", (req, res) => res.send("Good morning sunshine!"));
 
-app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!`));
+if (local == "yes") {
+    https.createServer({ key, cert }, app).listen(PORT);
+} else {
+    app.listen(PORT, () => console.log(`Backend listening on port ${PORT}!`));
+}
