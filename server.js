@@ -52,7 +52,8 @@ app.use(
             maxAge: 1000 * 60 * 60 * 24 * 7,
             sameSite: false,
             httpOnly: true,
-            domain:'ari-edu.web.app'
+            domain:'ari-edu.web.app',
+            path: '/api/auth/register-login',
         },
         secret: "very secret this is",
         resave: false,
