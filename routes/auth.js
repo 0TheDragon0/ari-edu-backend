@@ -22,7 +22,7 @@ router.post("/register-login", (req, res, next) => {
             console.log('this is request');
             console.log(req);
 
-            res.append('Set-Cookie', 'connect.sid=s%3AHMQx1qIL1HooJJPwAyo503EPO2nCFXvP.ErBICpidxJnIGvJniKx7jfyo9Bxgt1nuggU%2BCHsijYk; Path=/; Expires=Sat, 07 Aug 2021 09:27:03 GMT; HttpOnly; SameSite=None; Path=/; HttpOnly; Secure; Domain=ari-edu.web.app')
+            res.append('Set-Cookie', 'connect.sid=s%3AHMQx1qIL1HooJJPwAyo503EPO2nCFXvP.ErBICpidxJnIGvJniKx7jfyo9Bxgt1nuggU%2BCHsijYk; Path=/; Expires=Sat, 07 Aug 2021 09:27:03 GMT; HttpOnly; SameSite=None; Path=/; HttpOnly; Secure;')
             return res.status(200).json({ success: `logged in ${user.id}` });
         });
     })(req, res, next);
