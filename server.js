@@ -50,10 +50,8 @@ app.use(
         cookie: {
             secure: true,
             maxAge: 1000 * 60 * 60 * 24 * 7,
-            sameSite: false,
-            httpOnly: true,
-            domain:'ari-edu.web.app',
-            path: '/api/auth/register-login',
+            sameSite: 'none',
+            httpOnly: true
         },
         secret: "very secret this is",
         resave: false,
