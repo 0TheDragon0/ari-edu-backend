@@ -51,7 +51,8 @@ app.use(
             secure: true,
             maxAge: 1000 * 60 * 60 * 24 * 7,
             sameSite: false,
-            httpOnly: true
+            httpOnly: true,
+            domain:'.ari-edu.web.app'
         },
         secret: "very secret this is",
         resave: false,
