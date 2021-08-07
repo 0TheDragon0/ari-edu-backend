@@ -10,19 +10,19 @@ router.post("/register-login", (req, res, next) => {
         if (!user) {
             return res.status(401).json({ errors: "Unauthorized" });
         }
-        req.logIn(user, function (err) {
+        req.login(user, function (err) {
             if (err) {
                 return res.status(400).json({ errors: err });
             }
             let cookieVal = res.cookie.toString();
             //console.log('this is cookieVal');
             //console.log(cookieVal);
-            console.log('this is response');
+            /*console.log('this is response');
             console.log(res.session);
             console.log('this is request');
             console.log(req.session);
 
-            res.append('Set-Cookie', 'connect.sid=s%3AHMQx1qIL1HooJJPwAyo503EPO2nCFXvP.ErBICpidxJnIGvJniKx7jfyo9Bxgt1nuggU%2BCHsijYk; Path=/; Expires=Sat, 07 Aug 2021 09:27:03 GMT; HttpOnly; SameSite=None; Path=/; HttpOnly; Secure;')
+            res.append('Set-Cookie', 'connect.sid=s%3AHMQx1qIL1HooJJPwAyo503EPO2nCFXvP.ErBICpidxJnIGvJniKx7jfyo9Bxgt1nuggU%2BCHsijYk; Path=/; Expires=Sat, 07 Aug 2021 09:27:03 GMT; HttpOnly; SameSite=None; Path=/; HttpOnly; Secure;')*/
             return res.status(200).json({ success: `logged in ${user.id}` });
         });
     })(req, res, next);

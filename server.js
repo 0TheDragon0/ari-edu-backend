@@ -43,6 +43,7 @@ if (local == "yes") {
 // Bodyparser middleware, extended false does not allow nested payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // Express Session
 app.use(
@@ -55,14 +56,16 @@ app.use(
         },
         secret: "very secret this is",
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
         store: new MongoStore({ mongooseConnection: mongoose.connection })
     })
 );
 
 // Passport middleware
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
+app.use(passport.authenticate('session'));
+
 
 // Add headers
 app.use(function (req, res, next) {
