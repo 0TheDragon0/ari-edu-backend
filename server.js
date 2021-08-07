@@ -25,6 +25,19 @@ if (local == "yes") {
 }
 
 const app = express();
+
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    } else {
+        next();
+    }
+});
+
 const MONGO_URI = "mongodb://" + config.mongo.user + ":" + encodeURIComponent(mongoPassword) + "@" +
     config.mongo.hostString + "/tutorial_social_login";
 
@@ -68,7 +81,7 @@ app.use(passport.authenticate('session'));
 
 
 // Add headers
-app.use(function (req, res, next) {
+/*  app.use(function (req, res, next) {
     const allowedOrigins = ['https://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
@@ -89,6 +102,7 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
+*/
 
 // Routes
 app.use("/api/auth", auth);
