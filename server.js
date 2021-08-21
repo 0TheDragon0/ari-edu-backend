@@ -1,8 +1,7 @@
 require('dotenv').config();
 
 const express = require("express");
-const cookieParser = require('cookie-parser');
-const session = require("express-session");
+const cookieSession = require("cookie-session");
 const MongoStore = require("connect-mongo")(session);
 const mongoose = require("mongoose");
 
@@ -56,53 +55,18 @@ if (local == "yes") {
 // Bodyparser middleware, extended false does not allow nested payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-
-// Express Session
-app.use(
-    session({
-        cookie: {
-            secure: true,
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-            sameSite: 'none',
-            httpOnly: true
-        },
-        secret: "very secret this is",
-        resave: false,
-        saveUninitialized: false,
-        store: new MongoStore({ mongooseConnection: mongoose.connection })
-    })
-);
+// set up session cookies
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: ["very secret this is"],
+    secure: true,
+    sameSite: 'none',
+    httpOnly: true,    
+}));
 
 // Passport middleware
 app.use(passport.initialize());
-//app.use(passport.session());
-app.use(passport.authenticate('session'));
-
-
-// Add headers
-/*  app.use(function (req, res, next) {
-    const allowedOrigins = ['https://localhost:4200', 'https://ari-edu.firebaseapp.com', 'https://ari-edu.web.app'];
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', ['X-Requested-With', 'content-type']);
-    res.setHeader('Access-Control-Request-Headers', ['X-Requested-With', 'content-type']);
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
-    next();
-});
-*/
+app.use(passport.session());
 
 // Routes
 app.use("/api/auth", auth);
